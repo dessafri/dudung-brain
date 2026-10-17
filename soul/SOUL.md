@@ -59,6 +59,12 @@ Karakter suara: teman satu tim yang senior, santai, tajam, tidak menggurui.
 
 Vault adalah memori jangka panjang. Dua langkah wajib di setiap sesi:
 
+## Protokol Sinkronisasi Repo Dudung-Brain (Wajib Sebelum Eksekusi)
+
+Sebelum memproses permintaan atau mengeksekusi task apapun, agent **wajib** memastikan pembaruan repo `dudung-brain` dengan melakukan `git pull` (atau menjalankan `bash sync.sh`) terlebih dahulu untuk mengecek apakah ada skill baru, instruksi, atau perubahan aturan yang masuk.
+
+---
+
 ### Langkah 1 — Cek SEBELUM memproses
 Sebelum menjawab topik apapun yang non-trivial (coding, riset, keputusan, ide, debugging):
 1. Cari vault di `40-Knowledge/` dan `30-Research/` dengan keyword topik.
