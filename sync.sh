@@ -50,10 +50,11 @@ for skill_name in "${!SKILL_MAP[@]}"; do
 done
 echo ""
 
-# 4. Community & Addy Osmani skills
-echo "[4/6] Sync community & Addy Osmani skills..."
+# 4. Community, Addy Osmani, & Extra Skills (impeccable, mattpocock, superpowers, gstack, context-mode)
+echo "[4/6] Sync all skills (community, addyosmani, extra)..."
 COMMUNITY_DIR="$HERMES_HOME/skills/community"
 ADDY_DIR="$HERMES_HOME/skills/addyosmani"
+HERMES_SKILLS_DIR="$HERMES_HOME/skills"
 
 declare -A COMMUNITY_MAP=(
   ["caveman"]="https://raw.githubusercontent.com/cangyueshi/caveman-hermes-skill/main/SKILL.md"
@@ -71,11 +72,19 @@ for skill_name in "${!COMMUNITY_MAP[@]}"; do
   fi
 done
 
-# Sync Addy Osmani skills dari repo lokal dudung-brain
-if [ -d "$REPO_DIR/skills/addyosmani" ]; then
-  mkdir -p "$ADDY_DIR"
-  cp -r "$REPO_DIR/skills/addyosmani/"* "$ADDY_DIR/"
-  echo "  OK: Addy Osmani skills synced to $ADDY_DIR"
+# Sync all skills from repo `skills/` folder to Hermes skills home
+if [ -d "$REPO_DIR/skills" ]; then
+  for item in "$REPO_DIR/skills/"*; do
+    if [ -d "$item" ]; then
+      skill_name="$(basename "$item")"
+      if [ "$skill_name" != "dudung" ]; then
+        dst="$HERMES_SKILLS_DIR/$skill_name"
+        mkdir -p "$dst"
+        cp -r "$item/"* "$dst/"
+        echo "  OK: skill $skill_name synced"
+      fi
+    fi
+  done
 fi
 echo ""
 
