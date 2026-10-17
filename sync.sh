@@ -50,8 +50,29 @@ for skill_name in "${!SKILL_MAP[@]}"; do
 done
 echo ""
 
-# 4. Context, Rules, Design → AGENTS.md di hermes home
-echo "[4/4] Sync AGENTS.md (context + rules + design)..."
+# 4. Community skills — download dari GitHub (caveman, ponytail, ui-ux-pro-max)
+echo "[4/5] Sync community skills dari GitHub..."
+COMMUNITY_DIR="$HERMES_HOME/skills/community"
+
+declare -A COMMUNITY_MAP=(
+  ["caveman"]="https://raw.githubusercontent.com/cangyueshi/caveman-hermes-skill/main/SKILL.md"
+  ["ponytail"]="https://raw.githubusercontent.com/tensakulabs/hermes-ponytail/main/ponytail/SKILL.md"
+  ["ui-ux-pro-max"]="https://raw.githubusercontent.com/nextlevelbuilder/ui-ux-pro-max-skill/main/.claude/skills/ui-ux-pro-max/SKILL.md"
+)
+
+for skill_name in "${!COMMUNITY_MAP[@]}"; do
+  dst="$COMMUNITY_DIR/$skill_name/SKILL.md"
+  mkdir -p "$(dirname "$dst")"
+  if curl -fsSL "${COMMUNITY_MAP[$skill_name]}" -o "$dst" 2>/dev/null; then
+    echo "  OK: community/$skill_name/SKILL.md"
+  else
+    echo "  WARN: community/$skill_name gagal download (skip)"
+  fi
+done
+echo ""
+
+# 5. Context, Rules, Design → AGENTS.md di hermes home
+echo "[5/5] Sync AGENTS.md (context + rules + design)..."
 {
   echo "# Dudung Brain — Project Context"
   echo "# Auto-generated oleh sync.sh dari dudung-brain repo"
