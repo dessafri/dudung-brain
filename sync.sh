@@ -7,16 +7,22 @@ set -e
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 HERMES_HOME="$LOCALAPPDATA/hermes"
+NO_PULL="${1:-}"   # pass --no-pull untuk skip git pull (dipakai dari git hook)
 
 echo "[dudung-brain] Mulai sync ke Hermes..."
 echo "  Repo  : $REPO_DIR"
 echo "  Hermes: $HERMES_HOME"
 echo ""
 
-# 1. Git pull terbaru
-echo "[1/4] git pull..."
-git -C "$REPO_DIR" pull --ff-only
-echo ""
+# 1. Git pull terbaru (skip jika dipanggil dari git hook)
+if [ "$NO_PULL" != "--no-pull" ]; then
+  echo "[1/4] git pull..."
+  git -C "$REPO_DIR" pull --ff-only
+  echo ""
+else
+  echo "[1/4] git pull... (skipped, dipanggil dari post-merge hook)"
+  echo ""
+fi
 
 # 2. SOUL.md → ~/.hermes/SOUL.md
 echo "[2/4] Sync SOUL.md..."
