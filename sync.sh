@@ -50,9 +50,10 @@ for skill_name in "${!SKILL_MAP[@]}"; do
 done
 echo ""
 
-# 4. Community skills — download dari GitHub (caveman, ponytail, ui-ux-pro-max)
-echo "[4/5] Sync community skills dari GitHub..."
+# 4. Community & Addy Osmani skills
+echo "[4/6] Sync community & Addy Osmani skills..."
 COMMUNITY_DIR="$HERMES_HOME/skills/community"
+ADDY_DIR="$HERMES_HOME/skills/addyosmani"
 
 declare -A COMMUNITY_MAP=(
   ["caveman"]="https://raw.githubusercontent.com/cangyueshi/caveman-hermes-skill/main/SKILL.md"
@@ -69,10 +70,17 @@ for skill_name in "${!COMMUNITY_MAP[@]}"; do
     echo "  WARN: community/$skill_name gagal download (skip)"
   fi
 done
+
+# Sync Addy Osmani skills dari repo lokal dudung-brain
+if [ -d "$REPO_DIR/skills/addyosmani" ]; then
+  mkdir -p "$ADDY_DIR"
+  cp -r "$REPO_DIR/skills/addyosmani/"* "$ADDY_DIR/"
+  echo "  OK: Addy Osmani skills synced to $ADDY_DIR"
+fi
 echo ""
 
 # 5. Context, Rules, Design → AGENTS.md di hermes home
-echo "[5/5] Sync AGENTS.md (context + rules + design)..."
+echo "[6/6] Sync AGENTS.md (context + rules + design)..."
 {
   echo "# Dudung Brain — Project Context"
   echo "# Auto-generated oleh sync.sh dari dudung-brain repo"
